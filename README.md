@@ -5,6 +5,7 @@ Simple CLI cryptocurrency exchange client based of cryptotik library.
 Dodo is a simple CLI wrapper around [cryptotik](github.com/peerchemist/cryptotik) library.
 Dodo does not have configuration file or keystore, instead it uses native keystore of the underlying OS.
 It has been tested with Ubuntu-Gnome 17.04 where native Gnome keyring was used to store the API keys.
+Keystore package can hook into similar native functionality of Microsoft Windows and OS X as well, so dodo should be quite portable.
 
 > Dodo is work in progress and lacks polish, you are welcome to help with bugfixes and other PR's
 
