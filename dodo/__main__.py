@@ -144,6 +144,11 @@ class Dodo(object):
 
         pp.pprint(self.ex.get_loans(coin))
 
+    def ticker(self, market_pair):
+        '''display basic market info like high, low and volume'''
+
+        pp.pprint(self.ex.get_market_ticker(market_pair))
+
 
 def main():
 
