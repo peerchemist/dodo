@@ -72,8 +72,13 @@ class Dodo(object):
 
         pp.pprint(self.ex.cancel_order(order_id))
 
-    def deposit(self, coin):
-        '''show deposit address for <coin>'''
+    def deposit(self, coin, new=None):
+        '''show deposit address for <coin>
+        : new - generate new deposit address before printing it out. [works only with poloniex.]'''
+
+        if new and self.ex.name == "poloniex":
+            print('Requesting for new deposit address...')
+            print(self.ex.get_new_deposit_address(coin))
 
         pp.pprint(self.ex.get_deposit_address(coin))
 
@@ -140,7 +145,7 @@ class Dodo(object):
         pp.pprint(self.ex.get_loans(coin))
 
 
-if __name__ == '__main__':
+def main():
 
     polo = Dodo(Poloniex, keys('poloniex'))
     btrx = Dodo(Bittrex, keys('bittrex'))
@@ -151,3 +156,7 @@ if __name__ == '__main__':
         'btrx': btrx,
         'wex': wex
     })
+
+
+if __name__ == '__main__':
+    main()

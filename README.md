@@ -24,7 +24,6 @@ The name of the keyring is `dodo`, EXCHANGE_NAME is {poloniex, wex, bittrex} and
 Strings are stored in this manner because keyring is expecting username:password format.
 I've used `username` field for exchange name and `password` for concatenated APIkey:secret, whilst using `<\/&>` delimiter to separate them.
 
-
 ## Examples
 
 `dodo polo markets`
