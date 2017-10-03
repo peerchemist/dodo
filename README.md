@@ -41,5 +41,3 @@ Show deposit address of Ripple on Bittrex exchange.
 ### Tip jar:
 
 > ppc: PVXLbny3ksR8Rh2FZLeigKJRBXQdF36G13
-
-> btc: 13rrCWJkq1h611pBjwsF6jdABtQutx1Li4
