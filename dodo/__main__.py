@@ -5,7 +5,14 @@ import fire
 import keyring
 import pprint
 
+supported = (Wex.name, Poloniex.name, Bittrex.name)
+
 pp = pprint.PrettyPrinter(width=80, compact=True)
+
+
+def supported_exchanges():
+
+    pp.pprint(supported)
 
 
 def keys(exchange: str) -> tuple:
@@ -173,6 +180,7 @@ def main():
     wex = Dodo(Wex, keys('wex'))
 
     fire.Fire({
+        'supported_exchanges': supported_exchanges,
         'polo': polo,
         'btrx': btrx,
         'wex': wex
