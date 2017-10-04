@@ -8,7 +8,7 @@ import pprint
 pp = pprint.PrettyPrinter(width=80, compact=True)
 
 
-def keys(exchange):
+def keys(exchange: str) -> tuple:
     '''load keys from the keystore'''
 
     try:
@@ -45,7 +45,7 @@ class Dodo(object):
 
     def buy(self, market_pair, rate, amount):
 
-        pp.pprint(self.ex.sell(market_pair, rate, amount)
+        pp.pprint(self.ex.buy(market_pair, rate, amount)
                   )
 
     def sell(self, market_pair, rate, amount):
