@@ -134,7 +134,8 @@ class Dodo(object):
             balances = {k:v for k, v in self.ex.get_balances().items() if float(v) > 0}
 
             if coin:
-                pp.pprint(self.ex.get_balances[coin.upper()])
+                pp.pprint(self.ex.get_balances(coin))
+                return
 
         if self.ex.name == "bittrex":
             balances = self.ex.get_balances()
