@@ -18,6 +18,15 @@ def keys(exchange: str) -> tuple:
         print({'error': 'No secret entry for {0}.'.format(exchange)})
 
 
+def satoshi_to_bitcoin(rate: str) -> float:
+    '''convert amount of satoshi to Bitcoin'''
+
+    btc = 0.00000001
+    rate = ''.join(i for i in rate if i.isdigit())
+
+    return float(rate) * btc
+
+
 class Dodo(object):
 
     def __init__(self, exchange, secret):
@@ -45,10 +54,16 @@ class Dodo(object):
 
     def buy(self, market_pair, rate, amount):
 
+        if "sat" in rate:
+            rate = satoshi_to_bitcoin(rate)
+
         pp.pprint(self.ex.buy(market_pair, rate, amount)
                   )
 
     def sell(self, market_pair, rate, amount):
+
+        if "sat" in rate:
+            rate = satoshi_to_bitcoin(rate)
 
         pp.pprint(self.ex.sell(market_pair, rate, amount)
                   )
