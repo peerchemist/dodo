@@ -45,26 +45,26 @@ def satoshi_to_bitcoin(rate: str) -> float:
 class Dodo(object):
 
     def __init__(self, exchange, secret: str) -> None:
-        self.ex = exchange(secret[0], secret[1], timeout=5)
+        self._ex = exchange(secret[0], secret[1], timeout=5)
 
     def markets(self) -> None:
 
-        pp.pprint(self.ex.get_markets()
+        pp.pprint(self._ex.get_markets()
                   )
 
     def depth(self, market_pair: str) -> None:
 
-        pp.pprint(self.ex.get_market_depth(market_pair)
+        pp.pprint(self._ex.get_market_depth(market_pair)
                   )
 
     def spread(self, market_pair: str) -> None:
 
-        pp.pprint(self.ex.get_market_spread(market_pair)
+        pp.pprint(self._ex.get_market_spread(market_pair)
                   )
 
     def volume(self, market_pair: str) -> None:
 
-        pp.pprint(self.ex.get_market_volume(market_pair)
+        pp.pprint(self._ex.get_market_volume(market_pair)
                   )
 
     def buy(self, market_pair, rate, amount):
@@ -72,7 +72,7 @@ class Dodo(object):
         if "sat" in rate:
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self.ex.buy(market_pair, rate, amount)
+        pp.pprint(self._ex.buy(market_pair, rate, amount)
                   )
 
     def margin_buy(self, market_pair, rate, amount, max_lending_rate=1):
@@ -82,12 +82,12 @@ class Dodo(object):
         : amount - quantity of coin to long buy
         : max_lending_rate - maximum accepted lending rate (1% by default)'''
 
-        assert self.ex.name == "poloniex"
+        assert self._ex.name == "poloniex"
 
         if "sat" in rate:
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self.ex.margin_buy(market_pair, rate, amount,
+        pp.pprint(self._ex.margin_buy(market_pair, rate, amount,
                   max_lending_rate)
                   )
 
@@ -96,7 +96,7 @@ class Dodo(object):
         if "sat" in rate:
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self.ex.sell(market_pair, rate, amount)
+        pp.pprint(self._ex.sell(market_pair, rate, amount)
                   )
 
     def margin_sell(self, market_pair, rate, amount, max_lending_rate=1):
@@ -106,12 +106,12 @@ class Dodo(object):
         : amount - quantity of coin to short sell
         : max_lending_rate - maximum accepted lending rate (1% by default)'''
 
-        assert self.ex.name == "poloniex"
+        assert self._ex.name == "poloniex"
 
         if "sat" in rate:
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self.ex.margin_sell(market_pair, rate, amount,
+        pp.pprint(self._ex.margin_sell(market_pair, rate, amount,
                   max_lending_rate)
                   )
 
@@ -119,80 +119,80 @@ class Dodo(object):
         '''show open orders'''
 
         if market_pair:
-            pp.pprint(self.ex.get_open_orders(market_pair)
+            pp.pprint(self._ex.get_open_orders(market_pair)
                       )
 
         else:
-            if self.ex.name == "poloniex":
-                pp.pprint({k: v for k, v in self.ex.get_open_orders().items() if v}
+            if self._ex.name == "poloniex":
+                pp.pprint({k: v for k, v in self._ex.get_open_orders().items() if v}
                           )
             else:
-                pp.pprint(self.ex.get_open_orders())
+                pp.pprint(self._ex.get_open_orders())
 
     def cancel_order(self, order_id):
         '''cancel order <id>'''
 
-        pp.pprint(self.ex.cancel_order(order_id))
+        pp.pprint(self._ex.cancel_order(order_id))
 
     def deposit(self, coin, new=None):
         '''show deposit address for <coin>
         : new - generate new deposit address before printing it out. [works only with poloniex.]'''
 
-        if new and self.ex.name == "poloniex":
+        if new and self._ex.name == "poloniex":
             print('Requesting for new deposit address...')
-            print(self.ex.get_new_deposit_address(coin))
+            print(self._ex.get_new_deposit_address(coin))
 
-        pp.pprint(self.ex.get_deposit_address(coin))
+        pp.pprint(self._ex.get_deposit_address(coin))
 
     def deposit_history(self, coin=None):
 
         if not coin:
-            pp.pprint(self.ex.get_deposit_history()
+            pp.pprint(self._ex.get_deposit_history()
                       )
         else:
-            pp.pprint([i for i in self.ex.get_deposit_history() if i['currency'] == coin.upper()]
+            pp.pprint([i for i in self._ex.get_deposit_history() if i['currency'] == coin.upper()]
                       )
 
     def new_deposit_address(self, coin):
 
-        pp.pprint(self.ex.get_new_deposit_address(coin)
+        pp.pprint(self._ex.get_new_deposit_address(coin)
                   )
 
     def withdraw(self, coin, amount, address):
         '''withdraw cryptocurrency'''
 
-        pp.pprint(self.ex.withdraw(coin, amount, address)
+        pp.pprint(self._ex.withdraw(coin, amount, address)
                   )
 
     def withdraw_history(self, coin=None):
 
         if not coin:
-            pp.pprint(self.ex.get_withdraw_history()
+            pp.pprint(self._ex.get_withdraw_history()
                       )
         else:
-            pp.pprint([i for i in self.ex.get_withdraw_history() if i['currency'] == coin.upper()]
+            pp.pprint([i for i in self._ex.get_withdraw_history() if i['currency'] == coin.upper()]
                       )
 
     def balance(self, coin=None):
         '''show balances on trade account'''
 
-        if self.ex.name == "poloniex":
+        if self._ex.name == "poloniex":
 
-            balances = {k:v for k, v in self.ex.get_balances().items() if float(v) > 0}
+            balances = {k:v for k, v in self._ex.get_balances().items() if float(v) > 0}
 
             if coin:
-                pp.pprint(self.ex.get_balances(coin))
+                pp.pprint(self._ex.get_balances(coin))
                 return
 
-        if self.ex.name == "bittrex":
-            balances = self.ex.get_balances()
+        if self._ex.name == "bittrex":
+            balances = self._ex.get_balances()
 
             if coin:
                 pp.pprint([i for i in balances if i['Currency'] == coin.upper()])
                 return
 
-        if self.ex.name == "wex":
-            balances = self.ex.get_balances()
+        if self._ex.name == "wex":
+            balances = self._ex.get_balances()
 
             if coin:
                 pp.pprint({k: v for k, v in balances.items() if k == coin.lower()})
@@ -203,14 +203,14 @@ class Dodo(object):
     def loans(self, coin):
         '''Works only with Poloniex!'''
 
-        assert self.ex.name == 'poloniex'
+        assert self._ex.name == 'poloniex'
 
-        pp.pprint(self.ex.get_loans(coin))
+        pp.pprint(self._ex.get_loans(coin))
 
     def ticker(self, market_pair):
         '''display basic market info like high, low and volume'''
 
-        pp.pprint(self.ex.get_market_ticker(market_pair))
+        pp.pprint(self._ex.get_market_ticker(market_pair))
 
 
 def main():
