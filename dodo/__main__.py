@@ -6,7 +6,7 @@ import keyring
 import pprint
 
 supported = (Wex.name, Poloniex.name, Bittrex.name)
-
+_secret_delimiter = '<\/&>'
 pp = pprint.PrettyPrinter(width=80, compact=True)
 
 
@@ -20,14 +20,14 @@ def set_key(exchange: str, api: str, secret: str) -> None:
 
     assert exchange.lower() in supported, {'error': 'Unsupported exchange.'}
 
-    keyring.set_password("dodo", exchange.lower(), api+'<\/&>'+secret)
+    keyring.set_password("dodo", exchange.lower(), api+_secret_delimiter+secret)
 
 
 def keys(exchange: str) -> tuple:
     '''load keys from the keystore'''
 
     try:
-        apikey, secret = keyring.get_password('dodo', exchange).split('<\/&>')
+        apikey, secret = keyring.get_password('dodo', exchange).split(_secret_delimiter)
         return apikey, secret
     except AttributeError:
         print({'error': 'No secret entry for {0}.'.format(exchange)})
