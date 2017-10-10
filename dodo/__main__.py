@@ -15,6 +15,14 @@ def supported_exchanges():
     pp.pprint(supported)
 
 
+def set_key(exchange: str, api: str, secret: str) -> None:
+    '''set api/key for exchange'''
+
+    assert exchange.lower() in supported, {'error': 'Unsupported exchange.'}
+
+    keyring.set_password("dodo", exchange.lower(), api+'<\/&>'+secret)
+
+
 def keys(exchange: str) -> tuple:
     '''load keys from the keystore'''
 
