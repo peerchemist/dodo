@@ -1,4 +1,4 @@
-#/usr/bin/env python
+#!/usr/bin/env python
 
 from cryptotik import Wex, Poloniex, Bittrex
 import fire
