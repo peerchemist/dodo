@@ -67,12 +67,44 @@ class Dodo(object):
         pp.pprint(self.ex.buy(market_pair, rate, amount)
                   )
 
+    def margin_buy(self, market_pair, rate, amount, max_lending_rate=1):
+        '''execute leveraged buy order
+        : market_pair - [btc-xmr, btc-doge, btc-xrp, ...]
+        : rate - market price, expressed in Bitcoin or satoshis
+        : amount - quantity of coin to long buy
+        : max_lending_rate - maximum accepted lending rate (1% by default)'''
+
+        assert self.ex.name == "poloniex"
+
+        if "sat" in rate:
+            rate = satoshi_to_bitcoin(rate)
+
+        pp.pprint(self.ex.margin_buy(market_pair, rate, amount,
+                  max_lending_rate)
+                  )
+
     def sell(self, market_pair, rate, amount):
 
         if "sat" in rate:
             rate = satoshi_to_bitcoin(rate)
 
         pp.pprint(self.ex.sell(market_pair, rate, amount)
+                  )
+
+    def margin_sell(self, market_pair, rate, amount, max_lending_rate=1):
+        '''execute leveraged sell order
+        : market_pair - [btc-xmr, btc-doge, btc-xrp, ...]
+        : rate - market price, expressed in Bitcoin or satoshis
+        : amount - quantity of coin to short sell
+        : max_lending_rate - maximum accepted lending rate (1% by default)'''
+
+        assert self.ex.name == "poloniex"
+
+        if "sat" in rate:
+            rate = satoshi_to_bitcoin(rate)
+
+        pp.pprint(self.ex.margin_sell(market_pair, rate, amount,
+                  max_lending_rate)
                   )
 
     def orders(self, market_pair=None):
