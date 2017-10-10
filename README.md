@@ -18,11 +18,11 @@ Keystore package can hook into similar native functionality of Microsoft Windows
 First you need to create API keys for Bittrex, Wex and Poloniex which are supported exchanges for now.
 Then you need to insert the API keys into keyring, this can be done as following:
 
-`python3 -m dodo EXCHANGE_NAME {APIkey}<\/&>{APIsecret}`
+`dodo set_key EXCHANGE APIKEY SECRET`
 
-The name of the keyring is `dodo`, EXCHANGE_NAME is {poloniex, wex, bittrex} and APIkey and APIsecret are delimited by `<\/&>` which is quite specific and no conflicts with key and secret string are expected.
-Strings are stored in this manner because keyring is expecting username:password format.
-I've used `username` field for exchange name and `password` for concatenated APIkey:secret, whilst using `<\/&>` delimiter to separate them.
+(EXCHANGE_NAME is {poloniex, wex, bittrex})
+
+The name of the keyring is `dodo` if you wish to inspect manually using program like gnome-seahorse or alike.
 
 ## Examples
 
@@ -37,6 +37,10 @@ Show volume of ppc-btc market on wex exchange.
 `dodo btrx deposit xrp`
 
 Show deposit address of Ripple on Bittrex exchange.
+
+`dodo polo deposit ppc --new`
+
+Create new deposit address and show it.
 
 ### Tip jar:
 
