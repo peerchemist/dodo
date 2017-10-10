@@ -44,25 +44,25 @@ def satoshi_to_bitcoin(rate: str) -> float:
 
 class Dodo(object):
 
-    def __init__(self, exchange, secret):
+    def __init__(self, exchange, secret: str) -> None:
         self.ex = exchange(secret[0], secret[1], timeout=5)
 
-    def markets(self):
+    def markets(self) -> None:
 
         pp.pprint(self.ex.get_markets()
                   )
 
-    def depth(self, market_pair):
+    def depth(self, market_pair: str) -> None:
 
         pp.pprint(self.ex.get_market_depth(market_pair)
                   )
 
-    def spread(self, market_pair):
+    def spread(self, market_pair: str) -> None:
 
         pp.pprint(self.ex.get_market_spread(market_pair)
                   )
 
-    def volume(self, market_pair):
+    def volume(self, market_pair: str) -> None:
 
         pp.pprint(self.ex.get_market_volume(market_pair)
                   )
