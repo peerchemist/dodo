@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from cryptotik import Wex, Poloniex, Bittrex
+from cryptotik.common import ExchangeWrapper
 import fire
 import keyring
 import pprint
@@ -42,6 +43,29 @@ def satoshi_to_bitcoin(rate: str) -> float:
     return float(rate) * btc
 
 
+def n_worth(base: float, target_price: float,
+            market_pair: str, exchange: ExchangeWrapper) -> float:
+
+    '''calculate the amount of <coin> you would
+    be able to purchase at <price> expressed in <base>'''
+
+    if exchange.name == "poloniex" or exchange.name == "wex":
+        last_price = exchange.get_market_ticker(market_pair)['last']
+    if exchange.name == "bittrex":
+        last_price = exchange.get_market_ticker(market_pair)['Last']
+
+    taker_fee = exchange.taker_fee
+    maker_fee = exchange.maker_fee
+
+    if last_price >= target_price:
+        _base = base - (base * taker_fee)
+        return _base / target_price
+
+    else:
+        _base = base - (base * maker_fee)
+        return _base / target_price
+
+
 class Dodo(object):
 
     def __init__(self, exchange, secret: str) -> None:
@@ -73,6 +97,18 @@ class Dodo(object):
             rate = satoshi_to_bitcoin(rate)
 
         pp.pprint(self._ex.buy(market_pair, rate, amount)
+                  )
+
+    def buy_worth(self, market_pair: str, target_price: str, amount: float) -> None:
+        '''Buy <amount> of base pair worth at <target price>
+        : dodo btrx buy btc-xrp 2400sat 1btc'''
+
+        if "sat" in target_price:
+            target_price = float(satoshi_to_bitcoin(target_price))
+
+        amount = n_worth(amount, target_price, market_pair, self._ex)
+
+        pp.pprint(self._ex.buy(market_pair, target_price, amount)
                   )
 
     def margin_buy(self, market_pair, rate, amount, max_lending_rate=1):
