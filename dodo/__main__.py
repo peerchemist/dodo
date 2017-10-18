@@ -103,8 +103,8 @@ class Dodo(object):
         '''Buy <amount> of base pair worth at <target price>
         : dodo btrx buy btc-xrp 2400sat 1btc'''
 
-        if "sat" in target_price:
-            target_price = float(satoshi_to_bitcoin(target_price))
+        if "sat" in str(target_price):
+            target_price = satoshi_to_bitcoin(target_price)
 
         amount = n_worth(amount, target_price, market_pair, self._ex)
 
