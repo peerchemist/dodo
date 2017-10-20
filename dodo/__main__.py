@@ -170,6 +170,11 @@ class Dodo(object):
 
         pp.pprint(self._ex.cancel_order(order_id))
 
+    def cancel_all_orders(self):
+        '''cancel all active orders'''
+
+        pp.pprint(self._ex.cancel_all_orders())
+
     def deposit(self, coin, new=None):
         '''show deposit address for <coin>
         : new - generate new deposit address before printing it out. [works only with poloniex.]'''
