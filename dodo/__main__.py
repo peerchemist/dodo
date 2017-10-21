@@ -50,12 +50,12 @@ def n_worth(base: float, target_price: float,
     be able to purchase at <price> expressed in <base>'''
 
     if exchange.name == "poloniex" or exchange.name == "wex":
-        last_price = exchange.get_market_ticker(market_pair)['last']
+        last_price = float(exchange.get_market_ticker(market_pair)['last'])
     if exchange.name == "bittrex":
-        last_price = exchange.get_market_ticker(market_pair)['Last']
+        last_price = float(exchange.get_market_ticker(market_pair)['Last'])
 
-    taker_fee = exchange.taker_fee
-    maker_fee = exchange.maker_fee
+    taker_fee = float(exchange.taker_fee)
+    maker_fee = float(exchange.maker_fee)
 
     if last_price >= target_price:
         _base = base - (base * taker_fee)
