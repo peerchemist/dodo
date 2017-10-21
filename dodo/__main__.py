@@ -157,8 +157,13 @@ class Dodo(object):
         if market_pair:
             pp.pprint(self._ex.get_open_orders(market_pair)
                       )
+
         else:
-            pp.pprint(self._ex.get_open_orders())
+            if self._ex.name == "poloniex":
+                pp.pprint({k: v for k, v in self._ex.get_open_orders().items() if v}
+                          )
+            else:
+                pp.pprint(self._ex.get_open_orders())
 
     def cancel_order(self, order_id):
         '''cancel order <id>'''
