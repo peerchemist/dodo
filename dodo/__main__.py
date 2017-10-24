@@ -120,7 +120,7 @@ class Dodo(object):
 
         assert self._ex.name == "poloniex"
 
-        if "sat" in rate:
+        if "sat" in str(rate):
             rate = satoshi_to_bitcoin(rate)
 
         pp.pprint(self._ex.margin_buy(market_pair, rate, amount,
@@ -129,7 +129,7 @@ class Dodo(object):
 
     def sell(self, market_pair, rate, amount):
 
-        if "sat" in rate:
+        if "sat" in str(rate):
             rate = satoshi_to_bitcoin(rate)
 
         pp.pprint(self._ex.sell(market_pair, rate, amount)

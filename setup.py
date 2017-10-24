@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='dodo',
-      version='0.2.5',
+      version='0.2.6',
       description='Simple CLI cryptocurrency exchange client based of cryptotik library.',
       keywords=['cryptocurrency', 'trading', 'exchange', 'client'],
       url='https://github.com/peerchemist/dodo',
