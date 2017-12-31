@@ -202,7 +202,7 @@ class Dodo(object):
     def withdraw(self, coin, amount, address):
         '''withdraw cryptocurrency'''
 
-        pp.pprint(self._ex.withdraw(coin, amount, address)
+        pp.pprint(self._ex.withdraw(coin, amount, str(address))
                   )
 
     def withdraw_history(self, coin=None):
