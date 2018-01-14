@@ -268,19 +268,20 @@ class Dodo(object):
 
             _sorted = sorted(_filtered, key=lambda k: k['volume'])[-top_n::]
 
+            pp.pprint(_sorted)
+
 
         if self._ex.name == "binance":
 
             _sum = self._ex.get_summaries()
 
-            markets = [i for i in _sum if "BTC" in i['symbol']]
+            markets = [i for i in _sum if base_pair.upper() in i['symbol']]
 
             _filtered = [{"market": i['symbol'], "volume": float(i['quoteVolume'])} for i in markets]
 
-            _sorted = _filtered.sort(key=operator.itemgetter('volume')[-top_n::]
+            _filtered.sort(key=itemgetter('volume'))
 
-
-        pp.pprint(_sorted)
+            pp.pprint(_filtered[-top_n::])
 
 
 def main():
