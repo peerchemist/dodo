@@ -5,6 +5,7 @@ from cryptotik.common import ExchangeWrapper
 import fire
 import keyring
 import pprint
+from operator import itemgetter
 
 supported = (Wex.name, Poloniex.name, Bittrex.name, Binance.name)
 _secret_delimiter = '<\/&>'
@@ -266,6 +267,17 @@ class Dodo(object):
             _filtered = [{"market": i['MarketName'], "volume": i['BaseVolume']} for i in markets]
 
             _sorted = sorted(_filtered, key=lambda k: k['volume'])[-top_n::]
+
+
+        if self._ex.name == "binance":
+
+            _sum = self._ex.get_summaries()
+
+            markets = [i for i in _sum if "BTC" in i['symbol']]
+
+            _filtered = [{"market": i['symbol'], "volume": float(i['quoteVolume'])} for i in markets]
+
+            _sorted = _filtered.sort(key=operator.itemgetter('volume')[-top_n::]
 
 
         pp.pprint(_sorted)
