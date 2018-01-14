@@ -254,6 +254,23 @@ class Dodo(object):
         pp.pprint(self._ex.get_market_ticker(market_pair))
 
 
+    def top(self, base_pair, top_n=15):
+        '''display list of top markets, sorted by volume'''
+
+        if self._ex.name == "bittrex":
+
+            _sum = self._ex.get_summaries()
+
+            markets = [i for i in _sum if i['MarketName'].split('-')[0] == base_pair.upper()]
+
+            _filtered = [{"market": i['MarketName'], "volume": i['BaseVolume']} for i in markets]
+
+            _sorted = sorted(_filtered, key=lambda k: k['volume'])[-top_n::]
+
+
+        pp.pprint(_sorted)
+
+
 def main():
 
     polo = Dodo(Poloniex, keys('poloniex'))
