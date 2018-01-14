@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-from cryptotik import Wex, Poloniex, Bittrex
+from cryptotik import Wex, Poloniex, Bittrex, Binance
 from cryptotik.common import ExchangeWrapper
 import fire
 import keyring
 import pprint
 
-supported = (Wex.name, Poloniex.name, Bittrex.name)
+supported = (Wex.name, Poloniex.name, Bittrex.name, Binance.name)
 _secret_delimiter = '<\/&>'
 pp = pprint.PrettyPrinter(width=80, compact=True)
 
@@ -276,12 +276,14 @@ def main():
     polo = Dodo(Poloniex, keys('poloniex'))
     btrx = Dodo(Bittrex, keys('bittrex'))
     wex = Dodo(Wex, keys('wex'))
+    bnb = Dodo(Binance, keys('binance'))
 
     fire.Fire({
         'supported_exchanges': supported_exchanges,
         'polo': polo,
         'btrx': btrx,
-        'wex': wex
+        'wex': wex,
+        'bnb': bnb
     })
 
 
