@@ -219,7 +219,6 @@ class Dodo(object):
         '''show balances on trade account'''
 
         if self._ex.name == "poloniex":
-
             balances = {k:v for k, v in self._ex.get_balances().items() if float(v) > 0}
 
             if coin:
@@ -240,6 +239,13 @@ class Dodo(object):
                 pp.pprint({k: v for k, v in balances.items() if k == coin.lower()})
                 return
 
+        if self._ex.name == 'binance':
+            balances = self._ex.get_balances()
+
+            if coin:
+                pp.pprint([i for i in balances if coin.upper() in i['asset']])
+                return
+
         pp.pprint(balances)
 
     def loans(self, coin):
@@ -253,7 +259,6 @@ class Dodo(object):
         '''display basic market info like high, low and volume'''
 
         pp.pprint(self._ex.get_market_ticker(market_pair))
-
 
     def top(self, base_pair, top_n=15):
         '''display list of top markets, sorted by volume'''
