@@ -54,6 +54,8 @@ def n_worth(base: float, target_price: float,
         last_price = float(exchange.get_market_ticker(market_pair)['last'])
     if exchange.name == "bittrex":
         last_price = float(exchange.get_market_ticker(market_pair)['Last'])
+    if exchange.name == "binance":
+        last_price = float(exchange.get_market_ticker(market_pair)['lastPrice'])
 
     taker_fee = float(exchange.taker_fee)
     maker_fee = float(exchange.maker_fee)
