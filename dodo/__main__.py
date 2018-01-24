@@ -94,7 +94,7 @@ class Dodo(object):
 
     def buy(self, market_pair, rate, amount):
 
-        if "sat" in rate:
+        if "sat" in str(rate):
             rate = satoshi_to_bitcoin(rate)
 
         pp.pprint(self._ex.buy(market_pair, rate, amount)
