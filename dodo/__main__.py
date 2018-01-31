@@ -4,6 +4,7 @@ from cryptotik import Wex, Poloniex, Bittrex, Binance
 from cryptotik.common import ExchangeWrapper
 import fire
 import keyring
+from dodo.config import Settings
 import pprint
 from operator import itemgetter
 
@@ -71,8 +72,14 @@ def n_worth(base: float, target_price: float,
 
 class Dodo(object):
 
-    def __init__(self, exchange, secret: str) -> None:
-        self._ex = exchange(secret[0], secret[1], timeout=5)
+    def __init__(self, exchange, secret: str, settings: object) -> None:
+
+        if settings.timeout:
+            self._ex = exchange(secret[0], secret[1],
+                                timeout=int(settings.timeout), proxy=settings.proxy)
+        else:
+            self._ex = exchange(secret[0], secret[1],
+                                proxy=settings.proxy)       
 
     def markets(self) -> None:
 
@@ -293,10 +300,10 @@ class Dodo(object):
 
 def main():
 
-    polo = Dodo(Poloniex, keys('poloniex'))
-    btrx = Dodo(Bittrex, keys('bittrex'))
-    wex = Dodo(Wex, keys('wex'))
-    bnb = Dodo(Binance, keys('binance'))
+    polo = Dodo(Poloniex, keys('poloniex'), settings=Settings)
+    btrx = Dodo(Bittrex, keys('bittrex'), settings=Settings)
+    wex = Dodo(Wex, keys('wex'), settings=Settings)
+    bnb = Dodo(Binance, keys('binance'), settings=Settings)
 
     fire.Fire({
         'supported_exchanges': supported_exchanges,
