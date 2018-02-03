@@ -48,6 +48,28 @@ Create new deposit address and show it.
 
 Withdraw 10.01 OMG from Binance to address.
 
+## bash completion (on *nix platforms)
+
+Create file `.bash_completion` with content:
+
+```
+for bcfile in ~/.bash_completion.d/* ; do
+    . $bcfile
+done
+```
+
+Create directory: `mkdir ~/.bash_completion.d`
+
+Export completion file:
+
+`dodo -- --completion > ./bash_completion.d/dodo`
+
+Activate:
+
+`. ~/.bash_completion`
+
+Tab away.
+
 ### Tip jar:
 
 > ppc: PVXLbny3ksR8Rh2FZLeigKJRBXQdF36G13
