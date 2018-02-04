@@ -18,20 +18,29 @@ def supported_exchanges():
     pp.pprint(supported)
 
 
-def set_key(exchange: str, api: str, secret: str) -> None:
+def set_key(exchange: str, api: str, secret: str, id: str=None) -> None:
     '''set api/key for exchange'''
 
-    assert exchange.lower() in supported, {'error': 'Unsupported exchange.'}
+    print('Please use full name of the exchange (ie. bittrex).')
 
-    keyring.set_password("dodo", exchange.lower(), api+_secret_delimiter+secret)
+    if id:  # edge case for Bitstamp
+        keyring.set_password("dodo", exchange.lower(), api +
+                             _secret_delimiter + secret + _secret_delimiter + str(id))
+    else:
+        keyring.set_password("dodo", exchange.lower(), api + _secret_delimiter + secret)
 
 
-def keys(exchange: str) -> tuple:
+def keys(exchange: str) -> dict:
     '''load keys from the keystore'''
 
     try:
+        if exchange is not "bitstamp":
         apikey, secret = keyring.get_password('dodo', exchange).split(_secret_delimiter)
-        return apikey, secret
+            return {'apikey': apikey, 'secret': secret}
+        else:
+            apikey, secret, id = keyring.get_password('dodo', exchange).split(_secret_delimiter)
+            return {'apikey': apikey, 'secret': secret, 'customer_id': id}
+
     except AttributeError:
         print({'error': 'No secret entry for {0}.'.format(exchange)})
 
@@ -72,13 +81,13 @@ def n_worth(base: float, target_price: float,
 
 class Dodo(object):
 
-    def __init__(self, exchange, secret: str, settings: object) -> None:
+    def __init__(self, exchange, kwargs, settings: object) -> None:
 
         if settings.timeout:
-            self._ex = exchange(secret[0], secret[1],
+            self._ex = exchange(**kwargs,
                                 timeout=int(settings.timeout), proxy=settings.proxy)
         else:
-            self._ex = exchange(secret[0], secret[1],
+            self._ex = exchange(**kwargs,
                                 proxy=settings.proxy)       
 
     def markets(self) -> None:
