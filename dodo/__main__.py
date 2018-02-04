@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from cryptotik import Wex, Poloniex, Bittrex, Binance
+from cryptotik import Wex, Poloniex, Bittrex, Binance, Bitstamp
 from cryptotik.common import ExchangeWrapper
 import fire
 import keyring
@@ -8,7 +8,7 @@ from dodo.config import Settings
 import pprint
 from operator import itemgetter
 
-supported = (Wex.name, Poloniex.name, Bittrex.name, Binance.name)
+supported = (Wex.name, Poloniex.name, Bittrex.name, Binance.name, Bitstamp.name)
 _secret_delimiter = '<\/&>'
 pp = pprint.PrettyPrinter(width=80, compact=True)
 
@@ -35,7 +35,7 @@ def keys(exchange: str) -> dict:
 
     try:
         if exchange is not "bitstamp":
-        apikey, secret = keyring.get_password('dodo', exchange).split(_secret_delimiter)
+            apikey, secret = keyring.get_password('dodo', exchange).split(_secret_delimiter)
             return {'apikey': apikey, 'secret': secret}
         else:
             apikey, secret, id = keyring.get_password('dodo', exchange).split(_secret_delimiter)
@@ -264,6 +264,9 @@ class Dodo(object):
                 pp.pprint([i for i in balances if coin.upper() in i['asset']])
                 return
 
+        if self._ex.name == "bitstamp":
+            balances = self._ex.get_balances(coin)
+
         pp.pprint(balances)
 
     def loans(self, coin):
@@ -313,13 +316,15 @@ def main():
     btrx = Dodo(Bittrex, keys('bittrex'), settings=Settings)
     wex = Dodo(Wex, keys('wex'), settings=Settings)
     bnb = Dodo(Binance, keys('binance'), settings=Settings)
+    stamp = Dodo(Bitstamp, keys('bitstamp'), settings=Settings)
 
     fire.Fire({
         'supported_exchanges': supported_exchanges,
         'polo': polo,
         'btrx': btrx,
         'wex': wex,
-        'bnb': bnb
+        'bnb': bnb,
+        'stamp': stamp
     })
 
 
