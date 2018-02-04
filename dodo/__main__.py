@@ -115,7 +115,7 @@ class Dodo(object):
         if "sat" in str(rate):
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self._ex.buy(market_pair, rate, amount)
+        pp.pprint(self._ex.buy_limit(market_pair, rate, amount)
                   )
 
     def buy_market(self, pair, amount):
@@ -134,7 +134,7 @@ class Dodo(object):
 
         amount = n_worth(amount, target_price, market_pair, self._ex)
 
-        pp.pprint(self._ex.buy(market_pair, target_price, amount)
+        pp.pprint(self._ex.buy_limit(market_pair, target_price, amount)
                   )
 
     def buy_margin(self, market_pair, rate, amount, max_lending_rate=1):
@@ -149,7 +149,7 @@ class Dodo(object):
         if "sat" in str(rate):
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self._ex.margin_buy(market_pair, rate, amount,
+        pp.pprint(self._ex.buy_margin(market_pair, rate, amount,
                   max_lending_rate)
                   )
 
@@ -158,7 +158,7 @@ class Dodo(object):
         if "sat" in str(rate):
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self._ex.sell(market_pair, rate, amount)
+        pp.pprint(self._ex.sell_limit(market_pair, rate, amount)
                   )
 
     def sell_market(self, pair, amount):
@@ -180,7 +180,7 @@ class Dodo(object):
         if "sat" in rate:
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self._ex.margin_sell(market_pair, rate, amount,
+        pp.pprint(self._ex.sell_margin(market_pair, rate, amount,
                   max_lending_rate)
                   )
 
