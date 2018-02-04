@@ -130,7 +130,7 @@ class Dodo(object):
         pp.pprint(self._ex.buy(market_pair, target_price, amount)
                   )
 
-    def margin_buy(self, market_pair, rate, amount, max_lending_rate=1):
+    def buy_margin(self, market_pair, rate, amount, max_lending_rate=1):
         '''execute leveraged buy order
         : market_pair - [btc-xmr, btc-doge, btc-xrp, ...]
         : rate - market price, expressed in Bitcoin or satoshis
@@ -154,7 +154,7 @@ class Dodo(object):
         pp.pprint(self._ex.sell(market_pair, rate, amount)
                   )
 
-    def margin_sell(self, market_pair, rate, amount, max_lending_rate=1):
+    def sell_margin(self, market_pair, rate, amount, max_lending_rate=1):
         '''execute leveraged sell order
         : market_pair - [btc-xmr, btc-doge, btc-xrp, ...]
         : rate - market price, expressed in Bitcoin or satoshis
