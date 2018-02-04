@@ -118,6 +118,13 @@ class Dodo(object):
         pp.pprint(self._ex.buy(market_pair, rate, amount)
                   )
 
+    def buy_market(self, pair, amount):
+        '''bitstamp specific method, buys at market price'''
+
+        assert self._ex.name == "bitstamp", {'error': 'this only works with Bitstamp.'}
+
+        pp.pprint(self._ex.buy_market(pair, amount))
+
     def buy_worth(self, market_pair: str, target_price: str, amount: float) -> None:
         '''Buy <amount> of base pair worth at <target price>
         : dodo btrx buy btc-xrp 2400sat 1btc'''
@@ -153,6 +160,13 @@ class Dodo(object):
 
         pp.pprint(self._ex.sell(market_pair, rate, amount)
                   )
+
+    def sell_market(self, pair, amount):
+        '''bitstamp specific method, sells at market price'''
+
+        assert self._ex.name == "bitstamp", {'error': 'this only works with Bitstamp.'}
+
+        pp.pprint(self._ex.sell_market(pair, amount))
 
     def sell_margin(self, market_pair, rate, amount, max_lending_rate=1):
         '''execute leveraged sell order
