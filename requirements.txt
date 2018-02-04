@@ -1,4 +1,4 @@
 keyring>=10.3.1-1
 fire
-cryptotik>=0.2.8
+cryptotik>=0.3.2
 appdirs
