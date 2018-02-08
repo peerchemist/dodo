@@ -297,7 +297,7 @@ class Dodo(object):
 
         pp.pprint(self._ex.get_market_ticker(market_pair))
 
-    def top(self, base_pair, top_n=15):
+    def top(self, base_pair='btc', top_n=15):
         '''display list of top markets, sorted by volume'''
 
         if self._ex.name == "bittrex":
@@ -311,7 +311,6 @@ class Dodo(object):
             _sorted = sorted(_filtered, key=lambda k: k['volume'])[-top_n::]
 
             pp.pprint(_sorted)
-
 
         if self._ex.name == "binance":
 
