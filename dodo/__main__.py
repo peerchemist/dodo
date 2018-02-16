@@ -121,7 +121,7 @@ class Dodo(object):
     def buy_market(self, pair, amount):
         '''bitstamp specific method, buys at market price'''
 
-        assert self._ex.name == "bitstamp", {'error': 'this only works with Bitstamp.'}
+        assert self._ex.name in ("bitstamp", "binance"), {'error': 'this only works with Bitstamp and Binance.'}
 
         pp.pprint(self._ex.buy_market(pair, amount))
 
@@ -164,7 +164,7 @@ class Dodo(object):
     def sell_market(self, pair, amount):
         '''bitstamp specific method, sells at market price'''
 
-        assert self._ex.name == "bitstamp", {'error': 'this only works with Bitstamp.'}
+        assert self._ex.name in ("bitstamp", "binance"), {'error': 'this only works with Bitstamp and Binance.'}
 
         pp.pprint(self._ex.sell_market(pair, amount))
 
