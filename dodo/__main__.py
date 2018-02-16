@@ -331,7 +331,7 @@ def events(month=datetime.now().month, day=None, coin=None):
     '''print out events'''
 
     if coin:
-        pp.pprint(Coindar.query_coin_events(coin))
+        pp.pprint(Coindar.query_coin_events(coin)[::-1])
         return
     if day:
         pp.pprint(Coindar.query_events(month, day)[::-1])
