@@ -7,6 +7,8 @@ import keyring
 from dodo.config import Settings
 import pprint
 from operator import itemgetter
+from datetime import datetime
+from dodo.coindar import Coindar
 
 supported = (Wex.name, Poloniex.name, Bittrex.name, Binance.name, Bitstamp.name)
 _secret_delimiter = '<\/&>'
@@ -325,6 +327,20 @@ class Dodo(object):
             pp.pprint(_filtered[-top_n::])
 
 
+def events(month=datetime.now().month, day=None, coin=None):
+    '''print out events'''
+
+    if coin:
+        pp.pprint(Coindar.query_coin_events(coin))
+        return
+    if day:
+        pp.pprint(Coindar.query_events(month, day)[::-1])
+        return
+    else:
+        pp.pprint(Coindar.query_events(month)[::-1])
+        return
+
+
 def main():
 
     polo = Dodo(Poloniex, keys('poloniex'), settings=Settings)
@@ -339,7 +355,8 @@ def main():
         'btrx': btrx,
         'wex': wex,
         'bnb': bnb,
-        'stamp': stamp
+        'stamp': stamp,
+        'events': events
     })
 
 
