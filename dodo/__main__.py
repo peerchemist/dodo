@@ -201,7 +201,7 @@ class Dodo(object):
         pp.pprint(self._ex.get_new_deposit_address(coin)
                   )
 
-    def withdraw(self, coin, amount, address, tag=None):
+    def withdraw(self, coin, amount, address, name=None, tag=None):
         '''withdraw cryptocurrency'''
 
         if not tag:
