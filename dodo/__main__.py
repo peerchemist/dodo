@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from cryptotik import Wex, Poloniex, Bittrex, Binance, Bitstamp
+from cryptotik import Wex, Poloniex, Bittrex, Binance, Bitstamp, Kraken
 from cryptotik.common import ExchangeWrapper
 import fire
 import keyring
@@ -11,7 +11,7 @@ from datetime import datetime
 from dodo.coindar import Coindar
 from dodo.etc import n_worth, satoshi_to_bitcoin
 
-supported = (Wex.name, Poloniex.name, Bittrex.name, Binance.name, Bitstamp.name)
+supported = (Wex.name, Poloniex.name, Bittrex.name, Binance.name, Bitstamp.name, Kraken)
 _secret_delimiter = '<\/&>'
 pp = pprint.PrettyPrinter(width=80, compact=True)
 
@@ -252,6 +252,13 @@ class Dodo(object):
         if self._ex.name == "bitstamp":
             balances = self._ex.get_balances(coin)
 
+        if self._ex.name == "kraken":
+            balances = self._ex.get_balances()
+
+            if coin:
+                pp.pprint(balances[coin.upper()])
+                return
+
         pp.pprint(balances)
 
     def loans(self, coin):
@@ -315,6 +322,7 @@ def main():
     wex = Dodo(Wex, keys('wex'), settings=Settings)
     bnb = Dodo(Binance, keys('binance'), settings=Settings)
     stamp = Dodo(Bitstamp, keys('bitstamp'), settings=Settings)
+    kraken = Dodo(Kraken, keys('kraken'), settings=Settings)
 
     fire.Fire({
         'supported_exchanges': supported_exchanges,
@@ -323,6 +331,7 @@ def main():
         'wex': wex,
         'bnb': bnb,
         'stamp': stamp,
+        'kraken': kraken,
         'events': events
     })
 
