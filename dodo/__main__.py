@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
-from cryptotik import Wex, Poloniex, Bittrex, Binance, Bitstamp, Kraken
+from cryptotik import (WexNormalized,
+                       PoloniexNormalized,
+                       BittrexNormalized,
+                       BinanceNormalized,
+                       BitstampNormalized,
+                       KrakenNormalized)
 from cryptotik.common import ExchangeWrapper
 import fire
 import keyring
@@ -11,7 +16,9 @@ from datetime import datetime
 from dodo.coindar import Coindar
 from dodo.etc import n_worth, satoshi_to_bitcoin
 
-supported = (Wex.name, Poloniex.name, Bittrex.name, Binance.name, Bitstamp.name, Kraken)
+supported = (WexNormalized.name, PoloniexNormalized.name,
+             BittrexNormalized.name, BinanceNormalized.name,
+             BitstampNormalized.name, KrakenNormalized.name)
 _secret_delimiter = '<\/&>'
 pp = pprint.PrettyPrinter(width=80, compact=True)
 
@@ -89,8 +96,6 @@ class Dodo(object):
 
     def buy_market(self, pair, amount):
         '''bitstamp specific method, buys at market price'''
-
-        assert self._ex.name in ("bitstamp", "binance"), {'error': 'this only works with Bitstamp and Binance.'}
 
         pp.pprint(self._ex.buy_market(pair, amount))
 
@@ -317,12 +322,12 @@ def events(month=datetime.now().month, day=None, coin=None):
 
 def main():
 
-    polo = Dodo(Poloniex, keys('poloniex'), settings=Settings)
-    btrx = Dodo(Bittrex, keys('bittrex'), settings=Settings)
-    wex = Dodo(Wex, keys('wex'), settings=Settings)
-    bnb = Dodo(Binance, keys('binance'), settings=Settings)
-    stamp = Dodo(Bitstamp, keys('bitstamp'), settings=Settings)
-    kraken = Dodo(Kraken, keys('kraken'), settings=Settings)
+    polo = Dodo(PoloniexNormalized, keys('poloniex'), settings=Settings)
+    btrx = Dodo(BittrexNormalized, keys('bittrex'), settings=Settings)
+    wex = Dodo(WexNormalized, keys('wex'), settings=Settings)
+    bnb = Dodo(BinanceNormalized, keys('binance'), settings=Settings)
+    stamp = Dodo(BitstampNormalized, keys('bitstamp'), settings=Settings)
+    kraken = Dodo(KrakenNormalized, keys('kraken'), settings=Settings)
 
     fire.Fire({
         'supported_exchanges': supported_exchanges,
