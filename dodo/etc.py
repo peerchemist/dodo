@@ -18,12 +18,7 @@ def n_worth(base: float, target_price: float,
     '''calculate the amount of <coin> you would
     be able to purchase at <price> expressed in <base>'''
 
-    if exchange.name == "poloniex" or exchange.name == "wex":
-        last_price = float(exchange.get_market_ticker(market_pair)['last'])
-    if exchange.name == "bittrex":
-        last_price = float(exchange.get_market_ticker(market_pair)['Last'])
-    if exchange.name == "binance":
-        last_price = float(exchange.get_market_ticker(market_pair)['lastPrice'])
+    last_price = float(exchange.get_market_ticker(market_pair)['last'])
 
     taker_fee = float(exchange.taker_fee)
     maker_fee = float(exchange.maker_fee)
