@@ -50,13 +50,13 @@ Withdraw 10.01 OMG from Binance to address.
 
 ## special utilities
 
-# listing all upcoming events
+listing all upcoming events
 `dodo events`
 
-#  listing upcoming events for shitcoinX
+listing upcoming events for shitcoinX
 `dodo events --coin grs`
 
-# exchange rate and converter
+exchange rate and converter
 `dodo convert salt bts`
 
 ## bash completion (on *nix platforms)
