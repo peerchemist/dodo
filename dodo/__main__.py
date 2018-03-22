@@ -14,6 +14,7 @@ import pprint
 from operator import itemgetter
 from datetime import datetime
 from dodo.coindar import Coindar
+from dodo.convert import Converter
 from dodo.etc import n_worth, satoshi_to_bitcoin
 
 supported = (WexNormalized.name, PoloniexNormalized.name,
@@ -320,6 +321,11 @@ def events(month=datetime.now().month, day=None, coin=None):
         return
 
 
+def convert(c1, c2):
+
+    pp.pprint(Converter.convert(c1, c2))
+
+
 def main():
 
     polo = Dodo(PoloniexNormalized, keys('poloniex'), settings=Settings)
@@ -337,7 +343,8 @@ def main():
         'bnb': bnb,
         'stamp': stamp,
         'kraken': kraken,
-        'events': events
+        'events': events,
+        'convert': convert
     })
 
 
