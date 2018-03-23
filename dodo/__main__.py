@@ -321,9 +321,16 @@ def events(month=datetime.now().month, day=None, coin=None):
         return
 
 
-def convert(c1, c2):
+def ratio(c1, c2):
 
     pp.pprint(Converter.convert(c1, c2))
+
+
+def convert(coin1, quantity, coin2):
+
+    ratio = Converter.convert(coin1, coin2)
+
+    pp.pprint(quantity * ratio[coin2.upper()])
 
 
 def main():
@@ -344,6 +351,7 @@ def main():
         'stamp': stamp,
         'kraken': kraken,
         'events': events,
+        'ratio': ratio,
         'convert': convert
     })
 
