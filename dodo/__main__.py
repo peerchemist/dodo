@@ -96,9 +96,11 @@ class Dodo(object):
                   )
 
     def buy_market(self, pair, amount):
-        '''bitstamp specific method, buys at market price'''
+        '''buys at market price'''
 
-        pp.pprint(self._ex.buy_market(pair, amount))
+        assert self._ex.name in ("bitstamp", "binance", "kraken"), {'error': 'this only works with Bitstamp, Kraken and Binance.'}
+
+        pp.pprint(self._ex.buy_market(pair=pair, amount=amount))
 
     def buy_worth(self, market_pair: str, target_price: str, amount: float) -> None:
         '''Buy <amount> of base pair worth at <target price>
@@ -112,21 +114,26 @@ class Dodo(object):
         pp.pprint(self._ex.buy_limit(market_pair, target_price, amount)
                   )
 
-    def buy_margin(self, market_pair, rate, amount, max_lending_rate=1):
+    def buy_margin(self, market_pair, rate, amount, max_lending_rate=0.5):
         '''execute leveraged buy order
         : market_pair - [btc-xmr, btc-doge, btc-xrp, ...]
         : rate - market price, expressed in Bitcoin or satoshis
         : amount - quantity of coin to long buy
         : max_lending_rate - maximum accepted lending rate (1% by default)'''
 
-        assert self._ex.name == "poloniex"
-
         if "sat" in str(rate):
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self._ex.buy_margin(market_pair, rate, amount,
-                  max_lending_rate)
-                  )
+        if self._ex.name == "poloniex":
+
+            pp.pprint(self._ex.buy_margin(market_pair, rate, amount,
+                      max_lending_rate)
+                      )
+
+        if self._ex.name == "kraken":
+
+            pp.pprint(self._ex.buy_margin(market_pair, rate, amount)
+                      )
 
     def sell(self, market_pair, rate, amount):
 
@@ -139,25 +146,30 @@ class Dodo(object):
     def sell_market(self, pair, amount):
         '''bitstamp specific method, sells at market price'''
 
-        assert self._ex.name in ("bitstamp", "binance"), {'error': 'this only works with Bitstamp and Binance.'}
+        assert self._ex.name in ("bitstamp", "binance", "kraken"), {'error': 'this only works with Bitstamp, Kraken and Binance.'}
 
         pp.pprint(self._ex.sell_market(pair, amount))
 
-    def sell_margin(self, market_pair, rate, amount, max_lending_rate=1):
+    def sell_margin(self, market_pair, rate, amount, max_lending_rate=0.5):
         '''execute leveraged sell order
         : market_pair - [btc-xmr, btc-doge, btc-xrp, ...]
         : rate - market price, expressed in Bitcoin or satoshis
         : amount - quantity of coin to short sell
         : max_lending_rate - maximum accepted lending rate (1% by default)'''
 
-        assert self._ex.name == "poloniex"
-
-        if "sat" in rate:
+        if "sat" in str(rate):
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self._ex.sell_margin(market_pair, rate, amount,
-                  max_lending_rate)
-                  )
+        if self._ex.name == "poloniex":
+
+            pp.pprint(self._ex.sell_margin(market_pair, rate, amount,
+                      max_lending_rate)
+                      )
+
+        if self._ex.name == "kraken":
+
+            pp.pprint(self._ex.sell_margin(market_pair, rate, amount)
+                      )
 
     def orders(self, market_pair=None):
         '''show open orders'''
