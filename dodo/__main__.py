@@ -11,7 +11,6 @@ import keyring
 from dodo.config import Settings
 import pprint
 from operator import itemgetter
-from datetime import datetime
 from dodo.convert import Converter
 from dodo.etc import n_worth, satoshi_to_bitcoin
 
@@ -112,10 +111,14 @@ class Dodo(object):
         pp.pprint(self._ex.buy_limit(market_pair, target_price, amount)
                   )
 
-    def buy_margin(self, market_pair, rate, amount, max_lending_rate=0.5):
+    def long(self, market_pair: str,
+             rate: float,
+             amount: float,
+             leverage: int=None,
+             max_lending_rate: float=0.5) -> None:
         '''execute leveraged buy order
         : market_pair - [btc-xmr, btc-doge, btc-xrp, ...]
-        : rate - market price, expressed in Bitcoin or satoshis
+        : rate - market price
         : amount - quantity of coin to long buy
         : max_lending_rate - maximum accepted lending rate (1% by default)'''
 
@@ -130,7 +133,10 @@ class Dodo(object):
 
         if self._ex.name == "kraken":
 
-            pp.pprint(self._ex.buy_margin(market_pair, rate, amount)
+            pp.pprint(self._ex.buy_limit(pair=market_pair,
+                                         price=rate,
+                                         amount=amount,
+                                         leverage=leverage)
                       )
 
     def sell(self, market_pair, rate, amount):
@@ -148,10 +154,14 @@ class Dodo(object):
 
         pp.pprint(self._ex.sell_market(pair, amount))
 
-    def sell_margin(self, market_pair, rate, amount, max_lending_rate=0.5):
+    def short(self, market_pair: str,
+              rate: float,
+              amount: float,
+              leverage: int=None,
+              max_lending_rate: float=0.5) -> None:
         '''execute leveraged sell order
         : market_pair - [btc-xmr, btc-doge, btc-xrp, ...]
-        : rate - market price, expressed in Bitcoin or satoshis
+        : rate - market price
         : amount - quantity of coin to short sell
         : max_lending_rate - maximum accepted lending rate (1% by default)'''
 
@@ -166,7 +176,10 @@ class Dodo(object):
 
         if self._ex.name == "kraken":
 
-            pp.pprint(self._ex.sell_margin(market_pair, rate, amount)
+            pp.pprint(self._ex.sell_limit(pair=market_pair,
+                                          price=rate,
+                                          amount=amount,
+                                          leverage=leverage)
                       )
 
     def orders(self, market_pair=None):
