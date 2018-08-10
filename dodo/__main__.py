@@ -6,14 +6,12 @@ from cryptotik import (WexNormalized,
                        BinanceNormalized,
                        BitstampNormalized,
                        KrakenNormalized)
-from cryptotik.common import ExchangeWrapper
 import fire
 import keyring
 from dodo.config import Settings
 import pprint
 from operator import itemgetter
 from datetime import datetime
-from dodo.coindar import Coindar
 from dodo.convert import Converter
 from dodo.etc import n_worth, satoshi_to_bitcoin
 
