@@ -1,8 +1,8 @@
 from appdirs import user_config_dir
 import logging
 import configparser
-import os, sys
-from .default_conf import default_conf
+import os
+from dodo.default_conf import default_conf
 
 conf_dir = user_config_dir("dodo")
 conf_file = os.path.join(conf_dir, "dodo.conf")
