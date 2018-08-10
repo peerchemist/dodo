@@ -317,20 +317,6 @@ class Dodo(object):
             pp.pprint(_filtered[-top_n::])
 
 
-def events(month=datetime.now().month, day=None, coin=None):
-    '''print out events'''
-
-    if coin:
-        pp.pprint(Coindar.query_coin_events(coin)[::-1])
-        return
-    if day:
-        pp.pprint(Coindar.query_events(month, day)[::-1])
-        return
-    else:
-        pp.pprint(Coindar.query_events(month)[::-1])
-        return
-
-
 def ratio(c1, c2):
 
     pp.pprint(Converter.convert(c1, c2))
@@ -360,7 +346,6 @@ def main():
         'bnb': bnb,
         'stamp': stamp,
         'kraken': kraken,
-        'events': events,
         'ratio': ratio,
         'convert': convert
     })
