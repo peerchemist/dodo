@@ -134,7 +134,7 @@ class Dodo(object):
         if self._ex.name == "kraken":
 
             pp.pprint(self._ex.buy_limit(pair=market_pair,
-                                         price=rate,
+                                         rate=rate,
                                          amount=amount,
                                          leverage=leverage)
                       )
@@ -177,7 +177,7 @@ class Dodo(object):
         if self._ex.name == "kraken":
 
             pp.pprint(self._ex.sell_limit(pair=market_pair,
-                                          price=rate,
+                                          rate=rate,
                                           amount=amount,
                                           leverage=leverage)
                       )
