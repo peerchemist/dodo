@@ -7,10 +7,11 @@ from cryptotik import (WexNormalized,
                        BitstampNormalized,
                        KrakenNormalized)
 import fire
-import keyring
-from dodo.config import Settings
 import pprint
 from operator import itemgetter
+
+from dodo.config import Settings
+from dodo.keys import read_keys, set_key
 from dodo.convert import Converter
 from dodo.etc import n_worth, satoshi_to_bitcoin
 
@@ -24,33 +25,6 @@ pp = pprint.PrettyPrinter(width=80, compact=True)
 def supported_exchanges():
 
     pp.pprint(supported)
-
-
-def set_key(exchange: str, api: str, secret: str, id: str=None) -> None:
-    '''set api/key for exchange'''
-
-    print('Please use full name of the exchange (ie. bittrex).')
-
-    if id:  # edge case for Bitstamp
-        keyring.set_password("dodo", exchange.lower(), api +
-                             _secret_delimiter + secret + _secret_delimiter + str(id))
-    else:
-        keyring.set_password("dodo", exchange.lower(), api + _secret_delimiter + secret)
-
-
-def keys(exchange: str) -> dict:
-    '''load keys from the keystore'''
-
-    try:
-        if exchange is not "bitstamp":
-            apikey, secret = keyring.get_password('dodo', exchange).split(_secret_delimiter)
-            return {'apikey': apikey, 'secret': secret}
-        else:
-            apikey, secret, id = keyring.get_password('dodo', exchange).split(_secret_delimiter)
-            return {'apikey': apikey, 'secret': secret, 'customer_id': id}
-
-    except AttributeError:
-        print({'error': 'No secret entry for {0}.'.format(exchange)})
 
 
 class Dodo(object):
