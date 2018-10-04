@@ -5,7 +5,9 @@ from cryptotik import (WexNormalized,
                        BittrexNormalized,
                        BinanceNormalized,
                        BitstampNormalized,
-                       KrakenNormalized)
+                       KrakenNormalized,
+                       HitbtcNormalized)
+
 import fire
 import pprint
 from operator import itemgetter
@@ -17,9 +19,11 @@ from dodo.etc import n_worth, satoshi_to_bitcoin
 
 supported = (WexNormalized.name, PoloniexNormalized.name,
              BittrexNormalized.name, BinanceNormalized.name,
-             BitstampNormalized.name, KrakenNormalized.name)
-_secret_delimiter = '<\/&>'
-pp = pprint.PrettyPrinter(width=80, compact=True)
+             BitstampNormalized.name, KrakenNormalized.name,
+             HitbtcNormalized.name)
+
+
+pp = pprint.PrettyPrinter(width=80)
 
 
 def supported_exchanges():
@@ -33,10 +37,11 @@ class Dodo(object):
 
         if settings.timeout:
             self._ex = exchange(**kwargs,
-                                timeout=int(settings.timeout), proxy=settings.proxy)
+                                timeout=int(settings.timeout),
+                                proxy=settings.proxy)
         else:
             self._ex = exchange(**kwargs,
-                                proxy=settings.proxy)       
+                                proxy=settings.proxy)
 
     def markets(self) -> None:
 
@@ -318,14 +323,16 @@ def convert(coin1, quantity, coin2):
 
 def main():
 
-    polo = Dodo(PoloniexNormalized, keys('poloniex'), settings=Settings)
-    btrx = Dodo(BittrexNormalized, keys('bittrex'), settings=Settings)
-    wex = Dodo(WexNormalized, keys('wex'), settings=Settings)
-    bnb = Dodo(BinanceNormalized, keys('binance'), settings=Settings)
-    stamp = Dodo(BitstampNormalized, keys('bitstamp'), settings=Settings)
-    kraken = Dodo(KrakenNormalized, keys('kraken'), settings=Settings)
+    polo = Dodo(PoloniexNormalized, read_keys('poloniex'), settings=Settings)
+    btrx = Dodo(BittrexNormalized, read_keys('bittrex'), settings=Settings)
+    wex = Dodo(WexNormalized, read_keys('wex'), settings=Settings)
+    bnb = Dodo(BinanceNormalized, read_keys('binance'), settings=Settings)
+    stamp = Dodo(BitstampNormalized, read_keys('bitstamp'), settings=Settings)
+    kraken = Dodo(KrakenNormalized, read_keys('kraken'), settings=Settings)
+    hitbtc = Dodo(HitbtcNormalized, read_keys('hitbtc'), settings=Settings)
 
     fire.Fire({
+        'setup': set_key,
         'supported_exchanges': supported_exchanges,
         'polo': polo,
         'btrx': btrx,
@@ -333,6 +340,7 @@ def main():
         'bnb': bnb,
         'stamp': stamp,
         'kraken': kraken,
+        'hitbtc': hitbtc,
         'ratio': ratio,
         'convert': convert
     })
