@@ -160,7 +160,7 @@ class Dodo(object):
         '''limit sell order'''
 
         if "sat" in str(rate):
-            rate = satoshi_to_bitcoin(rate)
+            rate = str_to_bitcoin(rate)
 
         if spread:
 
