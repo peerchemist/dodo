@@ -20,7 +20,7 @@ Then you need to insert the API keys into keyring, this can be done as following
 
 `dodo setup EXCHANGE APIKEY SECRET`
 
-(EXCHANGE_NAME is {poloniex, wex, bittrex, binance})
+(EXCHANGE_NAME is {poloniex, bitstamp, bittrex, binance})
 
 The name of the keyring is `dodo` if you wish to inspect manually using program like gnome-seahorse or alike.
 
@@ -32,9 +32,9 @@ The name of the keyring is `dodo` if you wish to inspect manually using program 
 
 List poloniex markets.
 
-`dodo wex volume ppc-btc`
+`dodo btrx volume ppc-btc`
 
-Show volume of ppc-btc market on wex exchange.
+Show volume of ppc-btc market on Bittrex exchange.
 
 `dodo btrx deposit xrp`
 
@@ -79,4 +79,4 @@ Tab away.
 
 ### Tip jar:
 
-> ppc: PVXLbny3ksR8Rh2FZLeigKJRBXQdF36G13
+> ppc: PMRShieumf8RYAJkJpufNSKKSGYJigAn5i
