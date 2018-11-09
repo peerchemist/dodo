@@ -115,7 +115,7 @@ class Dodo(object):
         : dodo btrx buy btc-xrp 2400sat 1btc'''
 
         if "sat" in str(target_price):
-            target_price = satoshi_to_bitcoin(target_price)
+            target_price = str_to_bitcoin(target_price)
 
         amount = n_worth(amount, target_price, market_pair, self._ex)
 
@@ -134,7 +134,7 @@ class Dodo(object):
         : max_lending_rate - maximum accepted lending rate (1% by default)'''
 
         if "sat" in str(rate):
-            rate = satoshi_to_bitcoin(rate)
+            rate = str_to_bitcoin(rate)
 
         if self._ex.name == "poloniex":
 
@@ -202,7 +202,7 @@ class Dodo(object):
         : max_lending_rate - maximum accepted lending rate (1% by default)'''
 
         if "sat" in str(rate):
-            rate = satoshi_to_bitcoin(rate)
+            rate = str_to_bitcoin(rate)
 
         if self._ex.name == "poloniex":
 
