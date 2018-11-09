@@ -15,7 +15,13 @@ from operator import itemgetter
 from dodo.config import Settings
 from dodo.keys import read_keys, set_key
 from dodo.convert import Converter
-from dodo.etc import n_worth, satoshi_to_bitcoin
+from dodo.etc import (n_worth,
+                      str_to_bitcoin,
+                      satoshi_to_bitcoin,
+                      bitcoin_to_satoshi,
+                      spread_it,
+                      ladder_price
+                      )
 
 supported = (WexNormalized.name, PoloniexNormalized.name,
              BittrexNormalized.name, BinanceNormalized.name,
@@ -63,13 +69,39 @@ class Dodo(object):
         pp.pprint(self._ex.get_market_volume(market_pair)
                   )
 
-    def buy(self, market_pair, rate, amount):
+    def buy(self,
+            market_pair: str,
+            rate: float,
+            amount: float,
+            spread: float=None,
+            ladder: int=None
+            ) -> None:
+
+        '''limit buy order'''
 
         if "sat" in str(rate):
-            rate = satoshi_to_bitcoin(rate)
+            rate = str_to_bitcoin(rate)
 
-        pp.pprint(self._ex.buy_limit(market_pair, rate, amount)
-                  )
+        if spread:
+
+            if "sat" in str(spread):
+                spread = str_to_bitcoin(spread)
+
+            _ladder = spread_it(bitcoin_to_satoshi(rate),
+                                bitcoin_to_satoshi(spread),
+                                ladder)
+            _amounts = ladder_price(amount, ladder)
+
+            for r, a in zip(_ladder, _amounts):
+                pp.pprint(
+                    self._ex.buy_limit(market_pair,
+                                       satoshi_to_bitcoin(r),
+                                       a)
+                )
+
+        else:
+            pp.pprint(self._ex.buy_limit(market_pair, rate, amount)
+                      )
 
     def buy_market(self, pair, amount):
         '''buys at market price'''
@@ -118,13 +150,38 @@ class Dodo(object):
                                          leverage=leverage)
                       )
 
-    def sell(self, market_pair, rate, amount):
+    def sell(self,
+             market_pair: str,
+             rate: float,
+             amount: float,
+             spread: float=None,
+             ladder: int=None
+             ) -> None:
+        '''limit sell order'''
 
         if "sat" in str(rate):
             rate = satoshi_to_bitcoin(rate)
 
-        pp.pprint(self._ex.sell_limit(market_pair, rate, amount)
-                  )
+        if spread:
+
+            if "sat" in str(spread):
+                spread = str_to_bitcoin(spread)
+
+            _ladder = spread_it(bitcoin_to_satoshi(rate),
+                                bitcoin_to_satoshi(spread),
+                                ladder)
+            _amounts = ladder_price(amount, ladder)
+
+            for r, a in zip(_ladder, _amounts):
+                pp.pprint(
+                    self._ex.buy_limit(market_pair,
+                                       satoshi_to_bitcoin(r),
+                                       a)
+                )
+
+        else:
+            pp.pprint(self._ex.sell_limit(market_pair, rate, amount)
+                      )
 
     def sell_market(self, pair, amount):
         '''bitstamp specific method, sells at market price'''
