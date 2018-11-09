@@ -77,6 +77,12 @@ Activate:
 
 Tab away.
 
+______________
+
+### Disclaimer
+
+Software comes without guarantees. I do not recommend gambling with shitcoins, I just make tools to make it easier.
+
 ### Tip jar:
 
 > ppc: PMRShieumf8RYAJkJpufNSKKSGYJigAn5i
