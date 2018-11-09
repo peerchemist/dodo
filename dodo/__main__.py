@@ -174,9 +174,9 @@ class Dodo(object):
 
             for r, a in zip(_ladder, _amounts):
                 pp.pprint(
-                    self._ex.buy_limit(market_pair,
-                                       satoshi_to_bitcoin(r),
-                                       a)
+                    self._ex.sell_limit(market_pair,
+                                        satoshi_to_bitcoin(r),
+                                        a)
                 )
 
         else:
