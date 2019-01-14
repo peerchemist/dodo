@@ -50,7 +50,7 @@ Create new deposit address and show it.
 
 Withdraw 10.01 OMG from Binance to address.
 
-`dodo btrx withdraw btx 1 kraken`
+`dodo btrx withdraw btc 1 kraken`
 
 Withdraw 1 BTC to `alias` "kraken".
 To use this feature edit .conf file and make new entries in [alias] category.
