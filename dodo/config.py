@@ -13,6 +13,7 @@ def write_default_config(conf_file=None):
     print("writing default config")
     config = configparser.ConfigParser()
     config["settings"] = default_conf
+    config["alias"] = {}
     if not conf_file:
         config.write()
     else:
@@ -27,6 +28,8 @@ optional = {
 
 
 def read_conf(conf_file):
+    """read the configuration file"""
+
     config = configparser.ConfigParser()
     config.read(conf_file)
     try:
@@ -34,12 +37,14 @@ def read_conf(conf_file):
         for k, v in optional.items():
             settings[k] = settings.get(k, v)
 
-    except:
-        print("config is outdated, saving current default config to",conf_file+".sample")
-        write_default_config(conf_file+".sample")
+        alias = dict(config["alias"])
+
+    except KeyError:
+        print("config is outdated, saving current default config to", conf_file + ".sample")
+        write_default_config(conf_file + ".sample")
         raise
 
-    return settings
+    return settings, alias
 
 
 def init_config():
@@ -59,10 +64,12 @@ def load_conf():
     class Settings:
         pass
 
-    settings = read_conf(conf_file)
+    settings = read_conf(conf_file)[0]
 
     for key in settings:
         setattr(Settings, key, settings[key])
+
+    setattr(Settings, "alias", read_conf(conf_file)[1])
 
     logging.basicConfig(filename=logfile, level=logging.getLevelName(Settings.loglevel))
     logging.basicConfig(level=logging.getLevelName(Settings.loglevel),

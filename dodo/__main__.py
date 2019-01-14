@@ -269,6 +269,9 @@ class Dodo(object):
     def withdraw(self, coin, amount, address, name=None, tag=None):
         '''withdraw cryptocurrency'''
 
+        if address in Settings.alias:
+            address = Settings.alias[address]
+
         if not tag:
             pp.pprint(self._ex.withdraw(coin, amount, str(address)))
         else:
