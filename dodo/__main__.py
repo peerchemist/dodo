@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-from cryptotik import (WexNormalized,
-                       PoloniexNormalized,
+from cryptotik import (PoloniexNormalized,
                        BittrexNormalized,
                        BinanceNormalized,
                        BitstampNormalized,
@@ -23,7 +22,7 @@ from dodo.etc import (n_worth,
                       ladder_price
                       )
 
-supported = (WexNormalized.name, PoloniexNormalized.name,
+supported = (PoloniexNormalized.name,
              BittrexNormalized.name, BinanceNormalized.name,
              BitstampNormalized.name, KrakenNormalized.name,
              HitbtcNormalized.name)
@@ -303,13 +302,6 @@ class Dodo(object):
                 pp.pprint([i for i in balances if i['Currency'] == coin.upper()])
                 return
 
-        if self._ex.name == "wex":
-            balances = self._ex.get_balances()
-
-            if coin:
-                pp.pprint({k: v for k, v in balances.items() if k == coin.lower()})
-                return
-
         if self._ex.name == 'binance':
             balances = self._ex.get_balances()
 
@@ -385,7 +377,6 @@ def main():
 
     polo = Dodo(PoloniexNormalized, read_keys('poloniex'), settings=Settings)
     btrx = Dodo(BittrexNormalized, read_keys('bittrex'), settings=Settings)
-    wex = Dodo(WexNormalized, read_keys('wex'), settings=Settings)
     bnb = Dodo(BinanceNormalized, read_keys('binance'), settings=Settings)
     stamp = Dodo(BitstampNormalized, read_keys('bitstamp'), settings=Settings)
     kraken = Dodo(KrakenNormalized, read_keys('kraken'), settings=Settings)
@@ -396,7 +387,6 @@ def main():
         'supported_exchanges': supported_exchanges,
         'polo': polo,
         'btrx': btrx,
-        'wex': wex,
         'bnb': bnb,
         'stamp': stamp,
         'kraken': kraken,
