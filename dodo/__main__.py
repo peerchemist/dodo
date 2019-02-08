@@ -360,6 +360,20 @@ class Dodo(object):
 
             pp.pprint(_filtered[-top_n::])
 
+    def margin_summary(self):
+
+        assert self._ex.name == "poloniex"
+
+        pp.pprint(self._ex.get_margin_account_summary()
+                  )
+
+    def margin_position(self, market="all"):
+
+        assert self._ex.name == "poloniex"
+
+        pp.pprint(self._ex.get_margin_position(market)
+                  )
+
 
 def ratio(c1, c2):
 
